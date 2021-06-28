@@ -21,8 +21,13 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(
     [
+        dcc.Interval(
+            id='interval-component',
+            interval=1*1000, # in milliseconds
+            n_intervals=0
+        ),
         dcc.Input(id='img_val', type='text'),
-        html.Div(id='last_img'),
+        html.Div(id='last_img', style='width:300px; height:400px;'),
 
         dcc.Graph(id='graph-with-slider'),
         dcc.Slider(
@@ -39,10 +44,10 @@ app.layout = html.Div(
 )
 
 
-@app.callback(
-    Output(component_id='last_img', component_property='children'),
-    Input(component_id='img_val', component_property='value'),
-)
+# @app.callback(
+#     Output(component_id='last_img', component_property='children'),
+#     Input(component_id='img_val', component_property='value'),
+# )
 def update_img(input_value: str):
     if input_value == None or not input_value.isdigit():
         return ""
@@ -51,9 +56,20 @@ def update_img(input_value: str):
     fpath = '{}/{}'.format(ddir, fname)
     return html.Img(
         id='img_{}'.format(fname),
-        src=app.get_asset_url(fpath)
-        # src=app.get_asset_url('cats/0001.jpg')
+        src=app.get_asset_url(fpath),
+        # src=app.get_asset_url('cats/0001.jpg'),
+        style='object-fit=contain'
     )
+
+class static:
+    cnt = 0
+
+@app.callback(Output('last_img', 'children'),
+            Input('interval-component', 'n_intervals'),              
+            Input('img_val', 'value'))
+def update_metrics(n, img_val):
+    static.cnt+=1
+    return update_img(str(static.cnt))
 
 
 @app.callback(
