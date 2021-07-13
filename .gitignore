@@ -1,5 +1,6 @@
-assets/cats
+**/assets/cats
 __pycache__
+my_app_package_resolver.egg-info
 
 
 

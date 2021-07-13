@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 dash = "*"
 pandas = "*"
+dash-bootstrap-components = "*"
+mod = {editable = true, path = "."}
 
 [dev-packages]
 autopep8 = "*"

@@ -1,31 +1,38 @@
-from os import path
-import os
-import dash
-from dash.development.base_component import Component
-import dash_core_components as dcc
-from dash_core_components.Graph import Graph
-from dash_core_components.Slider import Slider
+from dash.dependencies import Output,Input
 import dash_html_components as html
-from dash.dependencies import Input, Output
-import pandas as pd
+import dash_core_components as dcc
 import plotly.express as px
+import pandas as pd
+from src.server import app
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# the styles for the main content position it to the right of the sidebar and
+# add some padding.
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
 
 df = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
 
-ddir = r"cats"
+datadir = r"cats"
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+def render() ->  html.Div:
+    """監視画面　最新のカメラ画像一覧を表示する（定期的に更新する）
 
-app.layout = html.Div(
-    [
+    Returns:
+        html.Div: [description]
+    """
+    return html.Div([
+        # 定期画面アプデ
         dcc.Interval(
             id='interval-component',
             interval=3*1000, # in milliseconds
             n_intervals=0
         ),
+        
+
         html.Div(
             [
                 html.Label('interval'),
@@ -54,9 +61,8 @@ app.layout = html.Div(
             step=None,
         ),
     ],
-
-    style={}
-)
+    
+    style=CONTENT_STYLE)
 
 
 # @app.callback(
@@ -68,20 +74,14 @@ def create_img_path(input_value: str):
         return ""
 
     fname = '{:03}.jpg'.format(int(input_value))
-    fpath = '{}/{}'.format(ddir, fname)
+    fpath = '{}/{}'.format(datadir, fname)
     return app.get_asset_url(fpath)
-    # return html.Img(
-    #     id='img_{}'.format(fpath),
-    #     src=app.get_asset_url(fpath),
-    #     # src=app.get_asset_url('cats/0001.jpg'),
-    #     style={'object-fit':'contain'}
-    # )
 
 class static:
     cnt = 0
 
 @app.callback(Output('last_img', 'src'),
-            Input('img_val', 'children'))
+              Input('img_val', 'children'))
 def update_metrics(img_val):
     return create_img_path(img_val)
 
@@ -109,7 +109,3 @@ def update_figure(selected_year):
     fig.update_layout(transition_duration=500)
 
     return fig
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)

@@ -1,0 +1,9 @@
+[submodule "assets/AdminLTE"]
+	path = assets/AdminLTE
+	url = https://github.com/ColorlibHQ/AdminLTE
+[submodule "src/assets/bootswatch"]
+	path = src/assets/bootswatch
+	url = https://github.com/thomaspark/bootswatch
+[submodule "src/assets/bootstrap"]
+	path = src/assets/bootstrap
+	url = https://github.com/twbs/bootstrap
