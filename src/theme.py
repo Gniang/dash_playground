@@ -36,22 +36,23 @@ themes_list = [
 
 dropdown = dcc.Dropdown(
     id='theme_switcher',
-    options=[{"label": str(i), "value":i} for i in themes_list],
+    options=[{"label": str(i), "value": i} for i in themes_list],
     value=DEFAULT_THEME,
     clearable=False,
 )
 
-# 
-switcher_component = html.Div(id='theme-switcher-output')
+#
+switcher_component = html.Div(id='theme_switcher_output')
 
 
-
-@app.callback(Output('theme-switcher','value'),
-            [
-                Input(LOCAL_STORAGE_ID, 'modifired_timestamp'),
-            ],
-            State(LOCAL_STORAGE_ID, CURRENT_SELECT_THEME))
-def on_current_select_theme(timestamp, current_seslect_theme)->str:
+@app.callback(
+    Output('theme_switcher', 'value'),
+    [
+        Input(LOCAL_STORAGE_ID, 'modified_timestamp'),
+    ],
+    State(LOCAL_STORAGE_ID, 'data')
+)
+def on_current_select_theme(timestamp, current_seslect_theme) -> str:
     """前回選択されたテーマを再現する
 
     Returns:
@@ -59,10 +60,10 @@ def on_current_select_theme(timestamp, current_seslect_theme)->str:
     """
     if timestamp is None:
         raise PreventUpdate
-    
+
     if current_seslect_theme in themes_list:
         return current_seslect_theme
-    
+
     return DEFAULT_THEME
 
 

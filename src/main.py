@@ -3,12 +3,11 @@ import dash_html_components as html
 import dash_core_components as dcc
 
 from src.routing import RouteUrls
-from src.server import app, LOCAL_STORAGE_ID # define application server
+from src.server import app, LOCAL_STORAGE_ID  # define application server
 from src.component import siderbar
 from src.component import observe_content
 from src.component import cameras_content
 from src import theme
-
 
 CONTENT_STYLE = {
     "margin-left": "18rem",
@@ -26,8 +25,7 @@ SIDEBAR_STYLE = {
     "background-color": "#f8f9fa",
 }
 
-
-# application main laytout
+# application main layout
 app.layout = html.Div(
     [
         # url routing
@@ -41,28 +39,30 @@ app.layout = html.Div(
         theme.dropdown,
 
         # メイン画面
-        html.Div(id="main-content", style=CONTENT_STYLE),     
-
+        html.Div(id="main-content", style=CONTENT_STYLE),
 
         # テーマ変更機能の差し込み
-        theme.switcher_component,   
+        theme.switcher_component,
     ],
 
     style={}
 )
 
 
-@app.callback(Output("main-content", "children"),[Input("url", "pathname")])
-def routeing_url(pathname:str):
-    if pathname == RouteUrls.home :
+@app.callback(Output("main-content", "children"), [Input("url", "pathname")])
+def routeing_url(pathname: str):
+    if pathname == RouteUrls.home:
         return observe_content.render()
     elif pathname == RouteUrls.camera_sts:
         return cameras_content.render()
 
+
 if __name__ == '__main__':
     app.assets_ignore = 'bootstrap/*|bootswatch/*'
+    app.config.suppress_callback_exceptions = True
+
     app.run_server(
         port='8050',
-        # debug=True,
+        debug=True,
         # dev_tools_hot_reload=False
     )

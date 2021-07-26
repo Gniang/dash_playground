@@ -1,0 +1,20 @@
+.custom-switch .custom-control-label::before {
+    margin-left: .25rem;
+    top: -.25rem;
+    left: -3.25rem;
+    width: 2.75rem;
+    height: 2rem;
+    border-radius: .2rem;
+}
+.custom-switch .custom-control-label::after {
+    margin-left: .25rem;
+    top: calc(-.25rem + 2px);
+    left: calc(-3.25rem + 2px);
+    width: calc(1.2rem - 4px);
+    height: calc(2rem - 4px);
+    border-radius: .2rem;
+}
+.custom-switch .custom-control-input:checked~.custom-control-label::after {
+    -webkit-transform: translateX(1.5rem);
+    transform: translateX(1.5rem);
+}

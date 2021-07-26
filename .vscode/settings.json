@@ -3,5 +3,8 @@
     "python.languageServer": "Pylance",
     "python.linting.mypyEnabled": true,
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.analysis.extraPaths": [
+        ".venv/Lib/site-packages"
+    ]
 }

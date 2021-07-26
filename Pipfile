@@ -8,6 +8,7 @@ dash = "*"
 pandas = "*"
 dash-bootstrap-components = "*"
 mod = {editable = true, path = "."}
+dash-daq = "*"
 
 [dev-packages]
 autopep8 = "*"
